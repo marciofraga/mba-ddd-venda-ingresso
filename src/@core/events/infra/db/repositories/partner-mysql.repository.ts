@@ -1,4 +1,4 @@
-import { IPartnerRepository } from '../../../domain/repositories/partner.repository.interface';
+import { IPartnerRepository } from '../../../domain/repositories/partner-repository.interface';
 import { EntityManager } from '@mikro-orm/core';
 import { Partner, PartnerId } from '../../../domain/entities/partner.entity';
 
