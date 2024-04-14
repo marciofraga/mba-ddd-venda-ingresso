@@ -1,6 +1,8 @@
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
 import Cpf from '../../../common/domain/value-objects/cpf.vo';
 import Uuid from '../../../common/domain/value-objects/uuid.vo';
+import { CustomerCreated } from '../events/domain-events/customer-created.event';
+import {CustomerNameChanged} from '../events/domain-events/customer-changed-name.event';
 
 export class CustomerId extends Uuid{}
 
@@ -26,10 +28,17 @@ export class Customer extends AggregateRoot{
   }
 
   static create(command: {name: string; cpf: string}): Customer {
-    return new Customer({
+    const customer = new Customer({
       name: command.name,
       cpf: new Cpf(command.cpf),
     });
+    customer.addEvent(new CustomerCreated(customer.id, customer.name, customer.cpf));
+    return customer;
+  }
+
+  changeName(name: string): void {
+    this.name = name;
+    this.addEvent(new CustomerNameChanged(this.id, name));
   }
 
   toJSON() {

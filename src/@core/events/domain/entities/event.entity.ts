@@ -1,8 +1,10 @@
 import Uuid from '../../../common/domain/value-objects/uuid.vo';
 import { PartnerId } from './partner.entity';
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
-import { EventSection } from './event-section';
+import { EventSection, EventSectionId } from './event-section';
 import { AnyCollection, ICollection, MyCollectionFactory } from 'src/@core/common/domain/my-collection';
+import { EventSpotId } from './event-spot';
+import { EventMarkedSportAsReserved } from '../events/domain-events/event-marked-sport-as-reserved.event';
 
 export class EventId extends Uuid {}
 
@@ -115,6 +117,62 @@ export class Event extends AggregateRoot {
 
   set sections(sections: AnyCollection<EventSection>) {
     this._sections = MyCollectionFactory.createFrom<EventSection>(sections);
+  }
+
+  changeSectionInformation(command: {
+    section_id: EventSectionId;
+    name: string;
+    description: string | null;
+  }) {
+    const sectionId = this.sections.find(section => section.id.equals(command.section_id)); 
+    if (!sectionId) {
+      throw new Error('Section not found');
+    }
+
+    'name' in command && sectionId.changeName(command.name);
+    'description' in command && sectionId.changeDescription(command.description);
+  }
+
+  changeLocation(command: {
+    section_id: EventSectionId; 
+    spot_id: EventSectionId; 
+    location: string
+  }) {
+    const section = this.sections.find(section => section.id.equals(command.section_id));
+    if (!section) {
+      throw new Error('Section not found');
+    }
+
+    section.changeLocation(command);
+  }
+
+  allowReserveSpot(data: {section_id: EventSectionId, spot_id: EventSpotId}) {
+    if(!this.is_published) {
+      return false;
+    }
+
+    const section = this.sections.find(section => section.id.equals(data.section_id));
+    if(!section) {
+      throw new Error('Section not found');
+    }
+
+    return section.allowReserveSpot(data.spot_id); 
+  }
+
+  markSpotAsReserved(command: {
+    section_id: EventSectionId;
+    spot_id: EventSpotId;
+  }) {
+    const section = this.sections.find((s) => s.id.equals(command.section_id));
+
+    if (!section) {
+      throw new Error('Section not found');
+    }
+
+    section.markSpotAsReserved(command.spot_id);
+    this.addEvent(
+      new EventMarkedSportAsReserved(this.id, section.id, command.spot_id),
+    );
   }
 
   toJSON(): any {
