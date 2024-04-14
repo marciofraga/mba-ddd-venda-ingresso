@@ -45,7 +45,6 @@ export const EventSchema = new EntitySchema<Event>({
     sections: {
       kind: '1:m',
       entity: () => EventSection,
-      mappedBy: (event) => event.section_id,
       eager: true,
       cascade: [Cascade.ALL]
     },
