@@ -1,8 +1,7 @@
-import { type } from "os";
-import Uuid from "src/@core/common/domain/value-objects/uuid.vo";
 import { CustomerId } from "./customer.entity";
 import { EventSpotId } from "./event-spot";
-import { AggregateRoot } from "src/@core/common/domain/aggregate-root";
+import Uuid from '../../../common/domain/value-objects/uuid.vo';
+import { AggregateRoot } from '../../../common/domain/aggregate-root';
 
 export enum OrderStatus {
     PENDING,

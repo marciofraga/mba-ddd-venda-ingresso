@@ -1,7 +1,7 @@
 import Uuid from '../../../common/domain/value-objects/uuid.vo';
 import { Entity } from '../../../common/domain/entity';
 import { EventSpot, EventSpotId } from './event-spot';
-import { AnyCollection, ICollection, MyCollectionFactory } from 'src/@core/common/domain/my-collection';
+import { AnyCollection, ICollection, MyCollectionFactory } from '../../../common/domain/my-collection';
 
 export class EventSectionId extends Uuid {}
 

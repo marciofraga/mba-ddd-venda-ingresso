@@ -2,9 +2,9 @@ import Uuid from '../../../common/domain/value-objects/uuid.vo';
 import { PartnerId } from './partner.entity';
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
 import { EventSection, EventSectionId } from './event-section';
-import { AnyCollection, ICollection, MyCollectionFactory } from 'src/@core/common/domain/my-collection';
 import { EventSpotId } from './event-spot';
 import { EventMarkedSportAsReserved } from '../events/domain-events/event-marked-sport-as-reserved.event';
+import { AnyCollection, ICollection, MyCollectionFactory } from '../../../common/domain/my-collection';
 
 export class EventId extends Uuid {}
 

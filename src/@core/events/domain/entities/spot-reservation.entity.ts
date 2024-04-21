@@ -1,7 +1,6 @@
-import { type } from "os";
 import { EventSpotId } from "./event-spot";
 import { CustomerId } from "./customer.entity";
-import { AggregateRoot } from "src/@core/common/domain/aggregate-root";
+import { AggregateRoot } from '../../../common/domain/aggregate-root';
 
 export type SpotReservationCreateCommand = {
     spot_id: EventSpotId | string;

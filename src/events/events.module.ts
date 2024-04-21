@@ -20,6 +20,9 @@ import { PartnerService } from '../@core/events/application/partner.service';
 import { IPartnerRepository } from '../@core/events/domain/repositories/partner-repository.interface';
 import { CustomerService } from '../@core/events/application/customer.service';
 import { IUnitOfWork } from '../@core/common/application/unit-of-work.interface';
+import { PartnersController } from './partners/partners.controller';
+import { CustomersController } from './customers/customers.controllers';
+import { EventsController } from './events/events.controller';
 
 @Module({
   imports: [
@@ -105,6 +108,7 @@ import { IUnitOfWork } from '../@core/common/application/unit-of-work.interface'
         PaymentGateway,
       ],
     },
-  ]
+  ],
+  controllers: [PartnersController, CustomersController, EventsController]
 })
 export class EventsModule {}
